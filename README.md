@@ -67,6 +67,11 @@ Below is a summary of the modifications introduced in **this fork** to support a
    - **New File:** `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh` (to train the model with scaled down configuration)
    - **New File:** `train_eval_bash_scripts/eval_bundlefusion_scaled_down.sh` (to evaluate the model)
    - Change paths in the bash scripts accordingly.
+   - Train either the **BundleFusion** (`bf`) and **TUM RGB-D** (`tum_rgbd`) dataset by selecting (`bf`) or (`tum_rgbd`) in the bash scripts.
+
+7. **Assets**
+   - **New Directory:** `assets` (to save evaluation results)
+
 ---
 
 <div align='center'>
