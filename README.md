@@ -13,7 +13,7 @@ Please note that the changes described below are _not_ part of the official Scen
 ---
 ## Fork Changelog
 
-This project was completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
+This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
 
 ### **Enhancements in SceneRF Performance**  
 
