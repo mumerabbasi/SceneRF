@@ -13,10 +13,12 @@ Please note that the changes described below are _not_ part of the official Scen
 ---
 ## Fork Changelog
 
+This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
+
 ### **Enhancements in SceneRF Performance**  
 
-- This project was completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
-- Implemented **Random Fourier Features positional encoding** and **Hierarchical Sampling** (alongside existing sampling techniques) to significantly enhance **novel depths synthesis, novel views synthesis, and scene reconstruction** in SceneRF. These improvements yield better performance, as shown in the following table:
+
+Implemented **Random Fourier Features positional encoding** and **Hierarchical Sampling** (alongside existing sampling techniques) to significantly enhance **novel depths synthesis, novel views synthesis, and scene reconstruction** in SceneRF. These improvements yield better performance, as shown in the following table:
 
 <img src="assets/bf_results.png">
 
