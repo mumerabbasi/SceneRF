@@ -17,15 +17,13 @@ This project was completed as a part of the **Machine Learning for 3D Geometry (
 
 ### **Enhancements in SceneRF Performance**  
 
-
 Implemented **Random Fourier Features positional encoding** and **Hierarchical Sampling** (alongside existing sampling techniques) to significantly enhance **novel depths synthesis, novel views synthesis, and scene reconstruction** in SceneRF. These improvements yield better performance, as shown in the following table:
 
-<img src="assets/bf_results.png">
+<img src="assets/outputResults.png">
 
-- The **best results** are highlighted in **orange**, while the **second-best** results are in **yellow**.
+- The **best results** are highlighted with **bold** font.
 - **Original results** are taken from the SceneRF paper.
 - **Scaled-down results** correspond to a scaled-down model using the configuration in `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh`.
-- We will update the README soon with **TUM_RGBD results**.
 
 ### **Additional Modifications**
 Below is a summary of the modifications introduced in **this fork** to support additional features and datasets. **All credit for the original work goes to the original authors.**
@@ -66,13 +64,16 @@ Below is a summary of the modifications introduced in **this fork** to support a
    - Allows specifying the number of points for hierarchical sampling directly from the command line.
    - Probabilistic sampling could sometimes overly concentrate on specific surface areas, leading to an imbalanced focus. Hierarchical sampling refines the uniform sampling points, ensuring a more even distribution near surfaces and improving overall reconstruction quality.
 
-6. **Training and Evaluation Bash Scripts**
+6. **Self Attention**
+   - **Modified Files:** `scenerf/models/unet2d_sphere.py` (to implement multihead self attention in the u-net bottleneck).
+
+7. **Training and Evaluation Bash Scripts**
    - **New File:** `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh` (to train the model with scaled down configuration)
    - **New File:** `train_eval_bash_scripts/eval_bundlefusion_scaled_down.sh` (to evaluate the model)
    - Change paths in the bash scripts accordingly.
    - Train either the **BundleFusion** (`bf`) and **TUM RGB-D** (`tum_rgbd`) dataset by selecting (`bf`) or (`tum_rgbd`) in the bash scripts.
 
-7. **Assets**
+8. **Assets**
    - **New Directory:** `assets` (to save evaluation results)
 
 ---
