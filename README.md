@@ -19,6 +19,7 @@ This project was completed as a part of the **Machine Learning for 3D Geometry (
 
 - Implemented **Random Fourier Features positional encoding** and **Hierarchical Sampling** (alongside existing sampling techniques) to significantly enhance **novel depths synthesis, novel views synthesis, and scene reconstruction** in SceneRF.
 - Also tried **Multihead Self Attention** in Spherical-UNet, but it didn't improve the results because we didn't have alot of data and compute to train it for longer.
+- Also modified the original implementation to **train the model** on **TUM-RGBD** dataset.
 - Please checkout the project report [here](docs/BetterSceNeRF.pdf).
 - These improvements yield better performance, as shown in the following table:
 
