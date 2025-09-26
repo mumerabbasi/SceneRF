@@ -1,6 +1,6 @@
 <div align='center'>
 
-# SceneRF (Fork Edition)
+# Better SceneRF
 **Self-Supervised Monocular 3D Scene Reconstruction with Radiance Fields**  
 _Original Authors:_ [Anh-Quan Cao](https://anhquancao.github.io), [Raoul de Charette](https://team.inria.fr/rits/membres/raoul-de-charette/)   
 _Inria, Paris, France._  
