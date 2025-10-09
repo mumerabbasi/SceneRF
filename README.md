@@ -21,7 +21,7 @@ This project was completed as a part of the **Machine Learning for 3D Geometry (
 - Also tried **Multihead Self Attention** in Spherical-UNet, but it didn't improve the results because we didn't have alot of data and compute to train it for longer.
 - Also modified the original implementation to **train the model** on **TUM-RGBD** dataset.
 - Please checkout the project report [here](docs/BetterSceNeRF.pdf).
-- These improvements yield better performance, as shown in the following table:
+- These improvements yield better performance on BundleFusion dataset, as shown in the following table:
 
 <img src="assets/outputResults.png">
 
