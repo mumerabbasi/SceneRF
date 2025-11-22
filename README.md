@@ -7,13 +7,16 @@ _Inria, Paris, France._
 
 </div>
 
-**This repository is a personal fork of the official [SceneRF](https://github.com/astra-vision/SceneRF) repository.**  
-Please note that the changes described below are _not_ part of the official SceneRF repository and are _not_ endorsed by the original authors.
+**This repository is a personal fork of the official [SceneRF](https://github.com/astra-vision/SceneRF) repository.**
+
+This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
+
+## Key Contributions
+- Improved the performance of SceneRF by 16% for novel depths synthesis, \% for novel views synthesis and 7% scene reconstruction, on BundleFusion dataset.
+- Modified the original implementation to train the model on TUM-RGBD dataset as well.
 
 ---
 ## Fork Changelog
-
-This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
 
 ### **Enhancements in SceneRF Performance**  
 
