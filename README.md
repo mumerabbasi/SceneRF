@@ -12,27 +12,31 @@ _Inria, Paris, France._
 This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
 
 ## Key Contributions
-- Improved the performance of SceneRF by 16% for novel depths synthesis, \% for novel views synthesis and 7% scene reconstruction, on BundleFusion dataset.
-- Modified the original implementation to train the model on TUM-RGBD dataset as well.
+
+- **Performance Optimization:** Achieved significant quantitative gains on the **BundleFusion** dataset, improving **novel depth synthesis by 16%**, **scene reconstruction by 7%**, and **novel view synthesis by 2%**.
+- **Dataset Extension:** Extended the training pipeline to support the **TUM-RGBD** dataset, broadening the model's applicability to diverse indoor environments.
+
+## Methodological Enhancements & Evaluation
+
+To improve upon the baseline SceneRF architecture, we introduced several structural changes:
+
+- **Positional Encoding & Sampling:** We integrated **Random Fourier Features (RFF)** for positional encoding and implemented **Hierarchical Sampling** alongside the existing sampling strategies. These additions proved critical for the observed improvements in depth and view synthesis.
+- **Attention Mechanism Experimentation:** We explored the integration of **Multihead Self-Attention** within the Spherical-UNet. Preliminary experiments yielded no significant performance boost, primarily attributed to computational constraints and limited training data availability.
+- **Technical Report:** For a comprehensive breakdown of the methodology and architecture, please refer to the [Project Report](docs/BetterSceNeRF.pdf).
+
+### Quantitative Results
+The proposed modifications demonstrate superior performance on the BundleFusion dataset, as detailed below:
+
+<img src="assets/outputResults.png">
+
+- **Bold** values denote the best-performing metrics.
+- **Original results** are sourced directly from the SceneRF publication.
+- **Scaled-down results** serve as a baseline, trained using the configuration in `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh`.
+
 
 ---
 ## Fork Changelog
 
-### **Enhancements in SceneRF Performance**  
-
-- Implemented **Random Fourier Features positional encoding** and **Hierarchical Sampling** (alongside existing sampling techniques) to significantly enhance **novel depths synthesis, novel views synthesis, and scene reconstruction** in SceneRF.
-- Also tried **Multihead Self Attention** in Spherical-UNet, but it didn't improve the results because we didn't have alot of data and compute to train it for longer.
-- Also modified the original implementation to **train the model** on **TUM-RGBD** dataset.
-- Please checkout the project report [here](docs/BetterSceNeRF.pdf).
-- These improvements yield better performance on BundleFusion dataset, as shown in the following table:
-
-<img src="assets/outputResults.png">
-
-- The **best results** are highlighted with **bold** font.
-- **Original results** are taken from the SceneRF paper.
-- **Scaled-down results** correspond to a scaled-down model using the configuration in `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh`.
-
-### **Additional Modifications**
 Below is a summary of the modifications introduced in **this fork** to support additional features and datasets. **All credit for the original work goes to the original authors.**
 
 1. **Dataset Argument for TUM RGB-D**  
