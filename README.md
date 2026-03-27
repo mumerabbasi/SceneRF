@@ -90,16 +90,15 @@ All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our
 
 <br>
 
-**Key takeaways from the results table:**
+**Key takeaways from the results table (**bold** = best):**
 
-| Configuration | Abs Rel ↓ | Sq Rel ↓ | RMSE ↓ | δ1 ↑ | IoU ↑ (Recon.) |
-|:---|:---:|:---:|:---:|:---:|:---:|
-| Original (paper) | 0.1766 | 0.0940 | 0.3680 | 72.71 | 20.16 |
-| Our Baseline (Scaled Down) | 0.1961 | 0.1087 | 0.3911 | 67.86 | 17.72 |
-| **Ours (RFF + Hier. Samp.)** | **0.1582** | **0.0675** | **0.3209** | **75.29** | **19.06** |
+| Configuration | Abs Rel ↓ (Depth) | LPIPS ↓ (View Synth.) | IoU ↑ (Recon.) |
+|:---|:---:|:---:|:---:|
+| Original (paper) | 0.1766 | **0.323** | **20.16** |
+| Our Baseline (Scaled Down) | 0.1961 | 0.337 | 17.72 |
+| **Ours (RFF + Hier. Samp.)** | **0.1582** | 0.327 | 19.06 |
 
-- **Bold** = best metric across all configurations. Our approach achieves the best depth synthesis results. Scene reconstruction IoU (19.06) improves over our Scaled Down baseline by ~7.6%, closing the gap with the Original which used significantly more compute.
-- Full ablation study with individual contributions of RFF and hierarchical sampling is available in the [technical report](docs/BetterSceNeRF.pdf).
+Full ablation study with individual contributions of RFF and hierarchical sampling is available in the [technical report](docs/BetterSceNeRF.pdf).
 
 ---
 
