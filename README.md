@@ -3,9 +3,9 @@
 # Better SceneRF: Improving Self-Supervised Monocular 3D Scene Reconstruction
 
 <p>
-<a href="docs/BetterSceNeRF.pdf"><img src="https://img.shields.io/badge/Technical_Report-PDF-blue?style=for-the-badge" alt="Report"></a>
-<a href="https://arxiv.org/abs/2212.02501"><img src="https://img.shields.io/badge/Base_Paper-arXiv-red?style=for-the-badge" alt="arXiv"></a>
-<a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green?style=for-the-badge" alt="Project Page"></a>
+<a href="docs/BetterSceNeRF.pdf"><img src="https://img.shields.io/badge/Technical_Report-PDF-blue" alt="Report"></a>
+<a href="https://arxiv.org/abs/2212.02501"><img src="https://img.shields.io/badge/Base_Paper-arXiv-red" alt="arXiv"></a>
+<a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green" alt="Project Page"></a>
 </p>
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-1.7-EE4C2C?logo=pytorch&logoColor=white)
