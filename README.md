@@ -40,7 +40,7 @@ SceneRF uses a NeRF-based pipeline: a 2D feature extractor (Spherical U-Net with
 
 ### 1. Random Fourier Features (RFF) for Positional Encoding
 
-The original model uses standard sinusoidal positional encoding. We replaced it with **Random Fourier Features**, random projections drawn from $\mathcal{N}(0, \sigma^2)$ followed by cosine activations, which provide a richer, stochastic frequency basis that better captures high-frequency surface detail in indoor scenes.
+The original model uses standard sinusoidal positional encoding. We replaced it with **Random Fourier Features**, random projections drawn from $\mathcal{N}(0, \sigma^2)$ followed by cosine activations, which provide a richer, stochastic frequency basis that better captures high-frequency surface detail.
 
 ```
 Standard PE:  [sin(2^0 x), cos(2^0 x), ..., sin(2^L x), cos(2^L x)]
