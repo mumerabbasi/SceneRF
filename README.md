@@ -10,7 +10,7 @@
 
 **Built on top of [SceneRF](https://github.com/astra-vision/SceneRF) (ICCV 2023) by Cao & de Charette, Inria Paris**
 
-*Completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **Technical University of Munich (TUM)***
+Completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **Technical University of Munich (TUM)**
 
 </div>
 
@@ -24,12 +24,12 @@
 | 3D Scene Reconstruction | **+7%** |
 | Novel View Synthesis (RGB) | **+2%** |
 
-> We improve SceneRF's indoor 3D reconstruction pipeline by introducing **Random Fourier Feature positional encoding** and **hierarchical volume sampling**, achieving state-of-the-art results on the BundleFusion dataset while extending the framework to support TUM RGB-D scenes.
+> We improve SceneRF's indoor 3D reconstruction pipeline by introducing **Random Fourier Feature positional encoding** and **hierarchical volume sampling**, achieving improved results on the BundleFusion dataset while extending the framework to support TUM RGB-D scenes.
 
 <div align="center">
 <img src="./teaser/method.png" width="600">
 <br>
-<em>SceneRF reconstructs 3D scenes from a single monocular image by synthesizing novel depth maps and views at predicted camera poses, then fusing them into a coherent 3D volume.</em>
+SceneRF reconstructs 3D scenes from a single monocular image by synthesizing novel depth maps and views at predicted camera poses, then fusing them into a coherent 3D volume.
 </div>
 
 ---
@@ -54,11 +54,11 @@ RFF:          sqrt(2) * cos(Wx + b),   W ~ N(0, sigma^2),  b ~ U[0, 2pi]
 For each ray cast from the camera, the model must decide **where along the ray** to place 3D sample points before querying the MLP for density and color. The original SceneRF uses two sampling strategies:
 
 - **Uniform sampling**: Evenly spaces points along the ray from near to far. Provides broad coverage but wastes most samples in empty space.
-- **Gaussian sampling**: A small secondary network predicts a set of Gaussian distributions (mean + std) along each ray, trained via SOM-KL loss to settle near surfaces. Points are drawn randomly from these Gaussians, concentrating samples where the network *believes* surfaces exist. However, this is a learned estimate that can be biased or over-concentrate on a single dominant surface.
+- **Gaussian sampling**: A small secondary network predicts a set of Gaussian distributions (mean + std) along each ray, trained via SOM-KL loss to settle near surfaces. Points are drawn randomly from these Gaussians, concentrating samples where the network believes surfaces exist. However, this is a learned estimate that can be biased or over-concentrate on a single dominant surface.
 
 We introduced a third strategy:
 
-- **Hierarchical sampling (ours)**: First, the uniform samples are rendered through the main MLP to produce density weights along the ray. These weights reveal where the network *actually found* density. New sample points are then drawn from this weight distribution via inverse CDF sampling, placing more points in high-density regions and almost none in empty space.
+- **Hierarchical sampling (ours)**: First, the uniform samples are rendered through the main MLP to produce density weights along the ray. These weights reveal where the network actually found density. New sample points are then drawn from this weight distribution via inverse CDF sampling, placing more points in high-density regions and almost none in empty space.
 
 All three sample sets are then merged, sorted by depth, and rendered together in a single final pass.
 
@@ -90,15 +90,13 @@ All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our
 
 <br>
 
-**Key takeaways from the results table (**bold** = best):**
+**Key takeaways from the results table (bold = best):**
 
 | Configuration | Abs Rel ↓ (Depth) | LPIPS ↓ (View Synth.) | IoU ↑ (Recon.) |
 |:---|:---:|:---:|:---:|
 | Original (paper) | 0.1766 | **0.323** | **20.16** |
 | Our Baseline (Scaled Down) | 0.1961 | 0.337 | 17.72 |
 | **Ours (RFF + Hier. Samp.)** | **0.1582** | 0.327 | 19.06 |
-
-Full ablation study with individual contributions of RFF and hierarchical sampling is available in the [technical report](docs/BetterSceNeRF.pdf).
 
 ---
 
@@ -110,7 +108,7 @@ Input Image
     ▼
 ┌─────────────────────────────┐
 │  EfficientNet-B7 Encoder    │
-│  (Pretrained, frozen early) │
+│  (Pretrained)               │
 └──────────┬──────────────────┘
            │
            ▼
