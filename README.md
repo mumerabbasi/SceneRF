@@ -68,7 +68,7 @@ This coarse-to-fine hierarchical sampling strategy originates from the original 
 
 ### 3. Self-Attention in Spherical U-Net (Exploratory)
 
-We experimented with **multi-head self-attention** in the U-Net bottleneck to capture long-range spatial dependencies. Results were inconclusive due to compute constraints and limited training data. Documented in our report as a negative result for transparency.
+We briefly experimented with **multi-head self-attention** in the U-Net bottleneck to capture long-range spatial dependencies. In our runs, it did not improve the metrics shown in the results table, so we removed it from the final code path. We still document the experiment in our report as a negative result for transparency.
 
 ### 4. TUM RGB-D Dataset Support
 
@@ -153,7 +153,7 @@ SceneRF/
 │   │   ├── scenerf_bf.py          # Main model (modified: RFF + hierarchical sampling)
 │   │   ├── pe_rff.py              # NEW: Random Fourier Features encoding
 │   │   ├── pe.py                  # Original positional encoding (replaced)
-│   │   ├── unet2d_sphere.py       # Spherical U-Net (modified: self-attention experiment)
+│   │   ├── unet2d_sphere.py       # Spherical U-Net backbone used in the final model
 │   │   ├── resnetfc.py            # ResNet-FC MLP backbone
 │   │   ├── ray_som_kl.py          # Self-Organizing Map for Gaussian ray sampling
 │   │   └── spherical_mapping.py   # Spherical coordinate projection
