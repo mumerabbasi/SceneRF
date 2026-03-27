@@ -51,13 +51,20 @@ RFF:          sqrt(2) * cos(Wx + b),   W ~ N(0, sigma^2),  b ~ U[0, 2pi]
 
 ### 2. Hierarchical Volume Sampling
 
-SceneRF combines uniform sampling with Gaussian-guided (probabilistic) sampling. The Gaussian strategy can over-concentrate samples on specific surface regions, leaving other areas under-sampled. We added a **coarse-to-fine hierarchical sampling** stage:
+For each ray cast from the camera, the model must decide **where along the ray** to place 3D sample points before querying the MLP for density and color. The original SceneRF uses two sampling strategies:
 
-1. **Coarse pass** : Uniform samples produce an initial weight distribution along each ray
-2. **Fine pass** : New samples are drawn proportionally to the coarse weights, then merged with uniform + Gaussian samples
-3. **Joint rendering** : All samples (uniform + Gaussian + hierarchical) are sorted by depth and rendered together
+- **Uniform sampling**: Evenly spaces points along the ray from near to far. Provides broad coverage but wastes most samples in empty space.
+- **Gaussian sampling**: A small secondary network predicts a set of Gaussian distributions (mean + std) along each ray, trained via SOM-KL loss to settle near surfaces. Points are drawn randomly from these Gaussians, concentrating samples where the network *believes* surfaces exist. However, this is a learned estimate that can be biased or over-concentrate on a single dominant surface.
 
-**Impact:** More balanced sample distribution near surfaces, particularly beneficial for complex indoor geometry where probabilistic sampling alone misses thin structures.
+We introduced a third strategy:
+
+- **Hierarchical sampling (ours)**: First, the uniform samples are rendered through the main MLP to produce density weights along the ray. These weights reveal where the network *actually found* density. New sample points are then drawn from this weight distribution via inverse CDF sampling, placing more points in high-density regions and almost none in empty space.
+
+All three sample sets are then merged, sorted by depth, and rendered together in a single final pass.
+
+**Why they complement each other**: Uniform provides baseline coverage everywhere. Gaussian brings a learned prior about likely surface locations. Hierarchical brings direct empirical evidence from the rendering network's own density predictions. Together they handle cases that any single strategy would miss, such as scenes with multiple surfaces at varying depths where Gaussians might fixate on only the closest one.
+
+**Impact:** Reduced depth error and improved reconstruction quality by ensuring more balanced sample coverage near surfaces.
 
 ### 3. Self-Attention in Spherical U-Net (Exploratory)
 
