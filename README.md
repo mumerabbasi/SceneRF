@@ -64,6 +64,8 @@ All three sample sets are then merged, sorted by depth, and rendered together in
 
 **Why they complement each other**: Uniform provides baseline coverage everywhere. Gaussian brings a learned prior about likely surface locations. Hierarchical brings direct empirical evidence from the rendering network's own density predictions. Together they handle cases that any single strategy would miss, such as scenes with multiple surfaces at varying depths where Gaussians might fixate on only the closest one.
 
+This coarse-to-fine hierarchical sampling strategy originates from the original NeRF paper (Mildenhall et al., 2020) but was not present in SceneRF. We adapted it to work alongside SceneRF's existing Gaussian sampling pipeline.
+
 **Impact:** Reduced depth error and improved reconstruction quality by ensuring more balanced sample coverage near surfaces.
 
 ### 3. Self-Attention in Spherical U-Net (Exploratory)
