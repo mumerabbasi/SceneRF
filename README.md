@@ -80,7 +80,11 @@ We extended the entire training and evaluation pipeline to support the **TUM RGB
 
 ## Quantitative Results
 
-All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our baseline trained with reduced compute to match our hardware budget. Our improvements (RFF + Hierarchical Sampling) are applied on top of this baseline.
+The figure below contains results on **two indoor datasets: BundleFusion and TUM RGB-D**.
+
+For **BundleFusion**, we can compare directly against both the **original SceneRF paper** and our **Scaled Down** baseline, since those numbers are available in the same setting.
+
+For **TUM RGB-D**, the results are additional experiments enabled by our dataset-extension work. There, the comparison is between **our own variants only**, since the original SceneRF paper and our reduced-compute baseline were not reported in the same way for that dataset.
 
 <div align="center">
 <img src="assets/outputResults.png" width="900">
@@ -88,13 +92,15 @@ All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our
 
 <br>
 
-**Key takeaways from the results table (bold = best):**
+**BundleFusion takeaways (direct comparison to original SceneRF + our scaled-down baseline; bold = best):**
 
 | Configuration | Abs Rel ↓ (Depth) | LPIPS ↓ (View Synth.) | IoU ↑ (Recon.) |
 |:---|:---:|:---:|:---:|
 | Original (paper) | 0.1766 | **0.323** | **20.16** |
 | Our Baseline (Scaled Down) | 0.1961 | 0.337 | 17.72 |
 | **Ours (RFF + Hier. Samp.)** | **0.1582** | 0.327 | 19.06 |
+
+For **TUM RGB-D** (lower block in the figure), the most meaningful comparison is among our own ablations. There, **Hierarchical Sampling v1** gives the strongest depth metrics, **RFF + Hierarchical Sampling** gives the best LPIPS / SSIM for novel view synthesis, and the **Scaled Down** variant retains the best IoU / recall in scene reconstruction.
 
 ---
 
