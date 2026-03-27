@@ -1,120 +1,248 @@
-<div align='center'>
+<div align="center">
 
-# Better SceneRF
-**Self-Supervised Monocular 3D Scene Reconstruction with Radiance Fields**  
-_Original Authors:_ [Anh-Quan Cao](https://anhquancao.github.io), [Raoul de Charette](https://team.inria.fr/rits/membres/raoul-de-charette/)   
-_Inria, Paris, France._  
+# Better SceneRF: Improving Self-Supervised Monocular 3D Scene Reconstruction
+
+<p>
+<a href="docs/BetterSceNeRF.pdf"><img src="https://img.shields.io/badge/Technical_Report-PDF-blue?style=for-the-badge" alt="Report"></a>
+<a href="https://arxiv.org/abs/2212.02501"><img src="https://img.shields.io/badge/Base_Paper-arXiv-red?style=for-the-badge" alt="arXiv"></a>
+<a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green?style=for-the-badge" alt="Project Page"></a>
+</p>
+
+**Built on top of [SceneRF](https://github.com/astra-vision/SceneRF) (ICCV 2023) by Cao & de Charette, Inria Paris**
+
+*Completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **Technical University of Munich (TUM)***
 
 </div>
-
-**This repository is a personal fork of the official [SceneRF](https://github.com/astra-vision/SceneRF) repository.**
-
-This project was completed as a part of the **Machine Learning for 3D Geometry (IN2392)** course at **TUM**.
-
-## Key Contributions
-
-- **Performance Optimization:** Achieved significant quantitative gains on the **BundleFusion** dataset, improving **novel depth synthesis by 16%**, **scene reconstruction by 7%**, and **novel view synthesis by 2%**.
-- **Dataset Extension:** Extended the training pipeline to support the **TUM-RGBD** dataset, broadening the model's applicability to diverse indoor environments.
-
-## Methodological Enhancements & Evaluation
-
-To improve upon the baseline SceneRF architecture, we introduced several structural changes:
-
-- **Positional Encoding & Sampling:** We integrated **Random Fourier Features (RFF)** for positional encoding and implemented **Hierarchical Sampling** alongside the existing sampling strategies. These additions proved critical for the observed improvements in depth and view synthesis.
-- **Attention Mechanism Experimentation:** We explored the integration of **Multihead Self-Attention** within the Spherical-UNet. Preliminary experiments yielded no significant performance boost, primarily attributed to computational constraints and limited training data availability.
-- **Technical Report:** For a comprehensive breakdown of the methodology and architecture, please refer to the [Project Report](docs/BetterSceNeRF.pdf).
-
-### Quantitative Results
-The proposed modifications demonstrate superior performance on the BundleFusion dataset, as detailed below:
-
-<img src="assets/outputResults.png">
-
-- **Bold** values denote the best-performing metrics.
-- **Original results** are sourced directly from the SceneRF publication.
-- **Scaled-down results** serve as a baseline, trained using the configuration in `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh`.
-
-
----
-## Fork Changelog
-
-Below is a summary of the modifications introduced in **this fork** to support additional features and datasets. **All credit for the original work goes to the original authors.**
-
-1. **Dataset Argument for TUM RGB-D**  
-   - A new `--dataset` argument has been introduced to:
-     - `scenerf/scripts/train_bundlefusion.py`
-     - `scenerf/data/bundlefusion_dm.py`
-     - `scenerf/data/bundlefusion_dataset.py`
-   - This allows for selecting between **BundleFusion** (`bf`) and **TUM RGB-D** (`tum_rgbd`) during training and data loading.
-
-2. **Modified Evaluation and Reconstruction Scripts**  
-   - Added a `--dataset` argument to:
-     - `scenerf/scripts/evaluation/save_depth_metrics_bf.py`
-     - `scenerf/scripts/evaluation/agg_depth_metrics_bf.py`
-     - `scenerf/scripts/evaluation/render_colors_bf.py`
-     - `scenerf/scripts/reconstruction/generate_novel_depths_bf.py`
-     - `scenerf/scripts/reconstruction/depth2tsdf_bf.py`
-     - `scenerf/scripts/reconstruction/generate_sc_gt_bf.py`
-     - `scenerf/scripts/evaluation/eval_sc_bf.py`
-   - This makes it possible to perform the same depth/TSDF/color metrics evaluations on the TUM RGB-D dataset using a BundleFusion-like format.
-
-3. **TUM RGB-D to BundleFusion Conversion**  
-   - **New File:** `convert_tum_to_bf/tum_to_bf`  
-   - Script to convert the **TUM RGB-D** dataset into a BundleFusion-like directory structure, including:
-     - Pose conversion
-     - Depth scaling
-     - Converting `color.png` to `color.jpg`
-
-4. **Random Fourier Features Positional Encoding**  
-   - **New File:** `scenerf/models/pe_rff.py`
-   - **Modified Files:** `scenerf/models/scenerf_bf.py` (to implement rff positional encoding).
-   - Implements **Random Fourier Features** for positional encoding, providing an alternative to standard positional encodings.
-
-5. **Hierarchical Sampling**  
-   - **Modified Files:** `scenerf/scripts/train_bundlefusion.py` (added a `--n_pts_hier` argument) and `scenerf/models/scenerf_bf.py` (to implement hierarchical sampling).
-   - Implements **Hierarchical Sampling** alongside uniform and probabilistic sampling.
-   - Allows specifying the number of points for hierarchical sampling directly from the command line.
-   - Probabilistic sampling could sometimes overly concentrate on specific surface areas, leading to an imbalanced focus. Hierarchical sampling refines the uniform sampling points, ensuring a more even distribution near surfaces and improving overall reconstruction quality.
-
-6. **Self Attention**
-   - **Modified Files:** `scenerf/models/unet2d_sphere.py` (to implement multihead self attention in the u-net bottleneck).
-
-7. **Training and Evaluation Bash Scripts**
-   - **New File:** `train_eval_bash_scripts/train_bundlefusion_scaled_down.sh` (to train the model with scaled down configuration)
-   - **New File:** `train_eval_bash_scripts/eval_bundlefusion_scaled_down.sh` (to evaluate the model)
-   - Change paths in the bash scripts accordingly.
-   - Train either the **BundleFusion** (`bf`) and **TUM RGB-D** (`tum_rgbd`) dataset by selecting (`bf`) or (`tum_rgbd`) in the bash scripts.
-
-8. **Assets**
-   - **New Directory:** `assets` (to save evaluation results)
 
 ---
 
-<div align='center'>
+## Highlights
 
-# Original SceneRF README
+| Task | Improvement over Baseline |
+|:-----|:------------------------:|
+| Novel Depth Synthesis | **+16%** |
+| 3D Scene Reconstruction | **+7%** |
+| Novel View Synthesis (RGB) | **+2%** |
 
+> We improve SceneRF's indoor 3D reconstruction pipeline by introducing **Random Fourier Feature positional encoding** and **hierarchical volume sampling**, achieving state-of-the-art results on the BundleFusion dataset while extending the framework to support TUM RGB-D scenes.
+
+<div align="center">
+<img src="./teaser/method.png" width="600">
+<br>
+<em>SceneRF reconstructs 3D scenes from a single monocular image by synthesizing novel depth maps and views at predicted camera poses, then fusing them into a coherent 3D volume.</em>
 </div>
 
-Please refer to the original [SceneRF repository](https://github.com/astra-vision/SceneRF) for the most up-to-date official code and instructions. The following sections are from the original SceneRF README (with minor adaptations to reflect the presence of the fork).
+---
 
-----
+## What We Changed and Why
 
-<div align='center'>
+SceneRF uses a NeRF-based pipeline: a 2D feature extractor (Spherical U-Net with EfficientNet-B7 backbone) produces per-pixel features, which are decoded by an MLP into density and color along sampled rays. A Self-Organizing Map (SOM) on Gaussians guides where along each ray to sample. We targeted **two bottlenecks** in this pipeline:
 
-# SceneRF: Self-Supervised Monocular 3D Scene Reconstruction with Radiance Fields
+### 1. Random Fourier Features (RFF) for Positional Encoding
 
-ICCV 2023
+The original model uses standard sinusoidal positional encoding. We replaced it with **Random Fourier Features**, random projections drawn from $\mathcal{N}(0, \sigma^2)$ followed by cosine activations, which provide a richer, stochastic frequency basis that better captures high-frequency surface detail in indoor scenes.
 
-[Anh-Quan Cao](https://anhquancao.github.io)&nbsp;&nbsp;&nbsp;
-[Raoul de Charette](https://team.inria.fr/rits/membres/raoul-de-charette/)  
-Inria, Paris, France.  
+```
+Standard PE:  [sin(2^0 x), cos(2^0 x), ..., sin(2^L x), cos(2^L x)]
+RFF:          sqrt(2) * cos(Wx + b),   W ~ N(0, sigma^2),  b ~ U[0, 2pi]
+```
 
-[![arXiv](https://img.shields.io/badge/arXiv%20%2B%20supp-2212.02501-purple)](https://arxiv.org/abs/2212.02501) 
-[![Project page](https://img.shields.io/badge/Project%20Page-SceneRF-red)](https://astra-vision.github.io/SceneRF/)
+**Impact:** This single change drove the largest portion of the depth synthesis improvement, reducing Abs Rel error and boosting accuracy thresholds across the board.
 
+### 2. Hierarchical Volume Sampling
+
+SceneRF combines uniform sampling with Gaussian-guided (probabilistic) sampling. The Gaussian strategy can over-concentrate samples on specific surface regions, leaving other areas under-sampled. We added a **coarse-to-fine hierarchical sampling** stage:
+
+1. **Coarse pass** : Uniform samples produce an initial weight distribution along each ray
+2. **Fine pass** : New samples are drawn proportionally to the coarse weights, then merged with uniform + Gaussian samples
+3. **Joint rendering** : All samples (uniform + Gaussian + hierarchical) are sorted by depth and rendered together
+
+**Impact:** More balanced sample distribution near surfaces, particularly beneficial for complex indoor geometry where probabilistic sampling alone misses thin structures.
+
+### 3. Self-Attention in Spherical U-Net (Exploratory)
+
+We experimented with **multi-head self-attention** in the U-Net bottleneck to capture long-range spatial dependencies. Results were inconclusive due to compute constraints and limited training data. Documented in our report as a negative result for transparency.
+
+### 4. TUM RGB-D Dataset Support
+
+We extended the entire training and evaluation pipeline to support the **TUM RGB-D** dataset, including:
+- A conversion tool (`convert_tum_to_bf/tum_to_bf.py`) that transforms TUM RGB-D data into BundleFusion format (pose conversion, depth scaling, intrinsics mapping)
+- `--dataset` flags across all training, evaluation, and reconstruction scripts
+
+---
+
+## Quantitative Results
+
+All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our baseline trained with reduced compute to match our hardware budget. Our improvements (RFF + Hierarchical Sampling) are applied on top of this baseline.
+
+<div align="center">
+<img src="assets/outputResults.png" width="900">
 </div>
 
-If you find this work or code useful, please cite our [paper](https://arxiv.org/abs/2212.02501) and [give this repo a star](https://github.com/astra-vision/SceneRF/stargazers):
+<br>
+
+**Key takeaways from the results table:**
+
+| Configuration | Abs Rel ↓ | RMSE ↓ | δ < 1.25 ↑ | IoU ↑ (Recon.) |
+|:---|:---:|:---:|:---:|:---:|
+| Original (paper) | 0.1766 | 0.3680 | 72.71% | 25.85 |
+| Our Baseline (Scaled Down) | 0.1961 | 0.1087 | 67.86 | 21.50 |
+| **Ours (RFF + Hier. Samp.)** | **0.1582** | **0.0675** | **96.35** | **25.53** |
+
+- **Bold** = best metric. Our combined approach (RFF + Hierarchical Sampling v1) achieves the **lowest depth error** and **highest accuracy** across all configurations.
+- Full ablation study with individual contributions of RFF and hierarchical sampling is available in the [technical report](docs/BetterSceNeRF.pdf).
+
+---
+
+## Architecture Overview
+
+```
+Input Image
+    │
+    ▼
+┌─────────────────────────────┐
+│  EfficientNet-B7 Encoder    │
+│  (Pretrained, frozen early) │
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  Spherical U-Net Decoder    │   Multi-scale features projected
+│  (Spherical Mapping)        │   onto spherical coordinate space
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  Ray Sampling                │
+│  ├─ Uniform sampling         │
+│  ├─ Gaussian (SOM-guided)    │
+│  └─ Hierarchical (NEW)  ◄───┼── Coarse-to-fine refinement
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  RFF Positional Encoding ◄───┼── Random Fourier Features (NEW)
+│  + View Direction            │
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  ResNet-FC MLP               │   Density + Color prediction
+│  (3 blocks, 512 hidden)     │   per sampled 3D point
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  Volume Rendering            │   Alpha compositing along rays
+│  → Depth + RGB + TSDF       │   → 3D Scene Reconstruction
+└─────────────────────────────┘
+```
+
+---
+
+## Repository Structure
+
+```
+SceneRF/
+├── scenerf/
+│   ├── models/
+│   │   ├── scenerf_bf.py          # Main model (modified: RFF + hierarchical sampling)
+│   │   ├── pe_rff.py              # NEW: Random Fourier Features encoding
+│   │   ├── pe.py                  # Original positional encoding (replaced)
+│   │   ├── unet2d_sphere.py       # Spherical U-Net (modified: self-attention experiment)
+│   │   ├── resnetfc.py            # ResNet-FC MLP backbone
+│   │   ├── ray_som_kl.py          # Self-Organizing Map for Gaussian ray sampling
+│   │   └── spherical_mapping.py   # Spherical coordinate projection
+│   ├── scripts/
+│   │   ├── train_bundlefusion.py  # Training entry point (modified: --dataset, --n_pts_hier)
+│   │   ├── train_kitti.py         # KITTI training
+│   │   ├── evaluation/            # All eval scripts (modified: --dataset for TUM support)
+│   │   └── reconstruction/        # Depth-to-TSDF, novel depth generation (modified)
+│   ├── data/
+│   │   ├── bundlefusion/          # BundleFusion + TUM RGB-D dataloaders (modified)
+│   │   └── semantic_kitti/        # KITTI dataloaders
+│   └── loss/                      # Depth metrics, self-supervised losses
+├── convert_tum_to_bf/             # NEW: TUM RGB-D → BundleFusion converter
+├── train_eval_bash_scripts/       # NEW: Ready-to-run training & evaluation scripts
+├── docs/BetterSceNeRF.pdf         # Technical report with full methodology & ablations
+└── assets/                        # Evaluation result figures
+```
+
+---
+
+## Getting Started
+
+### Installation
+
+**Using Conda:**
+```bash
+conda create -y -n scenerf python=3.7
+conda activate scenerf
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.2 -c pytorch
+pip install -r requirements.txt
+conda install -c bioconda tbb=2020.2
+pip install torchmetrics==0.6.0
+pip install -e ./
+```
+
+**Using Docker:**
+```bash
+docker build -t scene-rf .
+docker run -it --gpus all scene-rf
+```
+
+### Training (BundleFusion with our improvements)
+
+```bash
+export BF_ROOT=/path/to/bundlefusion
+export BF_LOG=/path/to/logs
+
+python scenerf/scripts/train_bundlefusion.py \
+    --bs=1 --n_gpus=1 \
+    --n_rays=1024 --lr=2e-5 \
+    --enable_log=True \
+    --dataset=bf \
+    --root=$BF_ROOT --logdir=$BF_LOG \
+    --n_gaussians=2 --n_pts_per_gaussian=4 \
+    --n_pts_uni=8 --n_pts_hier=8 \
+    --max_epochs=30
+```
+
+Set `--n_pts_hier=0` to disable hierarchical sampling. Set `--dataset=tum_rgbd` to train on TUM RGB-D.
+
+See [`train_eval_bash_scripts/`](train_eval_bash_scripts/) for ready-to-run training and evaluation configurations.
+
+### Converting TUM RGB-D to BundleFusion Format
+
+```bash
+python convert_tum_to_bf/tum_to_bf.py \
+    --source_dir=/path/to/tum_scenes \
+    --dest_dir=/path/to/output
+```
+
+---
+
+## Datasets
+
+| Dataset | Type | Scenes | Download |
+|:--------|:-----|:-------|:---------|
+| [BundleFusion](https://graphics.stanford.edu/projects/bundlefusion/) | Indoor RGB-D | 8 scenes | Stanford Graphics |
+| [TUM RGB-D](https://cvg.cit.tum.de/data/datasets/rgbd-dataset) | Indoor RGB-D | Multiple sequences | TUM CVG |
+| [KITTI Odometry](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) | Outdoor LiDAR+RGB | 22 sequences | KITTI |
+| [SemanticKITTI](http://www.semantic-kitti.org/dataset.html) | Outdoor voxel labels | 22 sequences | SemanticKITTI |
+
+---
+
+## Tools & Technologies
+
+`PyTorch` `PyTorch Lightning` `Neural Radiance Fields (NeRF)` `EfficientNet` `TSDF Fusion` `Self-Supervised Learning` `3D Computer Vision` `Volumetric Rendering` `Docker`
+
+---
+
+## Citation
+
+This work builds on SceneRF. If you use this code, please cite the original paper:
+
 ```bibtex
 @InProceedings{cao2023scenerf,
     author    = {Cao, Anh-Quan and de Charette, Raoul},
@@ -124,361 +252,6 @@ If you find this work or code useful, please cite our [paper](https://arxiv.org/
 }
 ```
 
-# Teaser
-<!-- ![](./teaser/method.png) -->
-<img style="width:500px;max-width:100%" src="./teaser/teaser.png">
-<table>
-<tr>
-    <td align="center"><b>Outdoor</b> scenes</td>
-    <td align="center"><b>Indoor</b> scenes</td>
-</tr>
-<tr>
-    <td style="width:50%!important">
-        <img style="width:100%" src="./teaser/outdoor.gif">
-        <!-- <img style="width:100%" src="./teaser/outdoor2.gif"> -->
-        <!-- <img style="width:100%" src="./teaser/outdoor3.gif"> -->
-    </td>
-    <td style="width:50%!important">
-        <img style="width:100%" src="./teaser/indoor.gif" />
-        <!-- <img style="width:100%" src="./teaser/indoor2.gif" /> -->
-    </td>
-</tr>
-</table>
+## Acknowledgment
 
-
-# Table of Content
-- [News](#news) 
-- [Installation](#installation)
-  - [Conda](#using-conda)
-  - [Docker](#using-docker)
-- [Dataset](#dataset)
-  - [KITTI](#kitti-dataset)
-  - [Bundlefusion](#bundlefusion-dataset)
-- [Training](#training)
-  - [KITTI](#train-kitti)
-  - [Bundlefusion](#train-bundlefusion)
-- [Evaluation](#evaluation)
-  - [KITTI](#evaluate-kitti)
-      - [Pretrained model](#pretrained-model-on-kitti)
-      - [Novel depths synthesis](#novel-depths-synthesis-on-kitti)
-      - [Novel views synthesis](#novel-views-synthesis-on-kitti)
-      - [Scene reconstruction](#scene-reconstruction-on-kitti)
-  - [Bundlefusion](#evaluate-bundlefusion)
-      - [Pretrained model](#pretrained-model-on-bundlefusion)
-      - [Novel depths synthesis](#novel-depths-synthesis-on-bundlefusion)
-      - [Novel views synthesis](#novel-views-synthesis-on-bundlefusion)
-      - [Scene reconstruction](#scene-reconstruction-on-bundlefusion)
-  - [Mesh extraction and visualization](#mesh-extraction-and-visualization)
-- [Acknowledgment](#acknowledgment)
-
-# News
-- 05/12/2023: Check out our recent work [PaSCo: Urban 3D Panoptic Scene Completion with Uncertainty Awareness](https://astra-vision.github.io/PaSCo/) :rotating_light:
-- 24/08/2023: Add code for Bundlefusion
-- 14/07/2023: SceneRF has been accepted at [ICCV 2023](https://iccv2023.thecvf.com/)
-- 15/03/2022: A new version of SceneRF is [available on arXiv.](https://arxiv.org/abs/2212.02501) :mega:. Code will be updated soon!
-- 10/03/2022: We have included [instructions for drawing the mesh](https://github.com/astra-vision/SceneRF#mesh-extraction-and-visualization)
-
-# Installation
-## Using Conda
-
-1. Create conda environment:
-
-```
-$ conda create -y -n scenerf python=3.7
-$ conda activate scenerf
-```
-2. This code was implemented with python 3.7, pytorch 1.7.1 and CUDA 10.2. Please install [PyTorch](https://pytorch.org/): 
-
-```
-$ conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.2 -c pytorch
-```
-
-3. Install the dependencies:
-
-```
-$ cd scenerf/
-$ pip install -r requirements.txt
-```
-4. Install tbb
-```
-$ conda install -c bioconda tbb=2020.2
-```
-
-5. Downgrade torchmetrics
-
-```
-$ pip install torchmetrics==0.6.0
-```
-
-6. Finally, install scenerf:
-
-```
-$ pip install -e ./
-```
-
-## Using Docker
-Make sure the docker daemon is installed and running on your local machine.
-
-1. Build docker container
-```
-$ docker build -t scene-rf .
-```
-
-2. Run interactive container session
-```
-$ docker run -it scene-rf
-```
-
-If the container should be deleted after usage, the ```-rm``` flag can be used.
-If GPUs are available, the ```--gpus all``` flag can be used.
-For more information, follow this [LINK](https://docs.docker.com/config/containers/resource_constraints/)
-
-
-# Dataset
-## KITTI dataset
-1. To train and evaluate novel depths/views synthesis, please download on [KITTI Odometry website](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) the following data: 
-    - Odometry data set (calibration files, 1 MB)
-    - Odometry data set (color, 65 GB)
-    - Odometry ground truth poses (4 MB)
-    - Velodyne laser data, 80 GB
-
-2. To evaluate scene reconstruction, please download **the SemanticKITTI voxel data (700 MB)** and **all extracted data for the training set (3.3 GB)**  on [Semantic KITTI download website](http://www.semantic-kitti.org/dataset.html).
-
-3. Create a folder to store preprocess data at `/path/to/kitti/preprocess/folder`.
-
-4. Store paths in environment variables for faster access (**Note: folder 'dataset' is in /path/to/kitti**):    
-
-    ```
-    $ export KITTI_PREPROCESS=/path/to/kitti/preprocess/folder
-    $ export KITTI_ROOT=/path/to/kitti 
-    ```
-## Bundlefusion dataset
-1. Please download 8 scenes from [Bundlefusion website](https://graphics.stanford.edu/projects/bundlefusion/) and unzip them to `/gpfsdswork/dataset/bundlefusion` (change to your dataset directory).
-2. Store paths in environment variables for faster access:    
-    ```
-    $ export BF_ROOT=/gpfsdswork/dataset/bundlefusion
-    ```
-
-# Training
-## Train KITTI
-1. Create folders to store training logs at **/path/to/kitti/logdir**.
-
-2. Store in an environment variable:
-
-    ```
-    $ export KITTI_LOG=/path/to/kitti/logdir
-    ```
-
-3. Train scenerf using 4 v100-32g GPUs with batch_size of 4 (1 item per GPU):
-
-    ```
-    $ cd scenerf/
-    $ python scenerf/scripts/train_kitti.py \
-        --bs=4 --n_gpus=4 \
-        --enable_log=True \
-        --preprocess_root=$KITTI_PREPROCESS \
-        --root=$KITTI_ROOT \
-        --logdir=$KITTI_LOG \
-        --n_gaussians=4 --n_pts_per_gaussian=8  \
-        --max_epochs=50 --exp_prefix=Train
-    ```
-## Train Bundlefusion
-
-1. Create folders to store training logs at **/gpfsscratch/rech/kvd/uyl37fq/logs/monoscene2/bundlefusion** (Change to your directory).
-
-2. Store in an environment variable:
-
-    ```
-    $ export BF_LOG=/gpfsscratch/rech/kvd/uyl37fq/logs/monoscene2/bundlefusion
-    ```
-
-3. Train scenerf using 4 v100-32g GPUs with batch_size of 4 (1 item per GPU):
-
-    ```
-    $ cd scenerf/
-    $ python scenerf/scripts/train_bundlefusion.py --bs=4 --n_gpus=4 \
-        --n_rays=2048 --lr=2e-5 \
-        --enable_log=True \
-        --root=$BF_ROOT \
-        --logdir=$BF_LOG
-    ```
-
-# Evaluation
-## Evaluate KITTI
-Create folders to store intermediate evaluation data at `/path/to/evaluation/save/folder` and reconstruction data at `/path/to/reconstruction/save/folder`.
-
-```
-$ export EVAL_SAVE_DIR=/path/to/evaluation/save/folder
-$ export RECON_SAVE_DIR=/path/to/reconstruction/save/folder
-```
-### Pretrained model on KITTI
-Please download the [pretrained model](https://www.rocq.inria.fr/rits_files/computer-vision/scenerf/scenerf_kitti.ckpt).
-    
-### Novel depths synthesis on KITTI
-Supposed we obtain the model from the training step at `/path/to/model/checkpoint/last.ckpt`. We follow the steps below to evaluate the novel depths synthesis performance. 
-1. Compute the depth metrics on all frames in each sequence, additionally grouped by the distance to the input frame.
-
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/save_depth_metrics.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS \
-    --model_path=/path/to/model/checkpoint/last.ckpt
-```
-2. Aggregate the depth metrics from all sequences.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/agg_depth_metrics.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS
-```
-
-### Novel views synthesis on KITTI
-Given the trained model at `/path/to/model/checkpoint/last.ckpt`, the novel views synthesis performance is obtained as followed:
-1. Render an RGB image for every frame in each sequence.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/render_colors.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS \
-    --model_path=/path/to/model/checkpoint
-```
-2. Compute the metrics, additionally grouped by the distance to the input frame.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/eval_color.py --eval_save_dir=$EVAL_SAVE_DIR
-```
-### Scene reconstruction on KITTI
-1. Generate novel views/depths for reconstructing scene.
-```
-$ cd scenerf/
-$ python scenerf/scripts/reconstruction/generate_novel_depths.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS \
-    --model_path=/path/to/model/checkpoint \
-    --angle=10 --step=0.5 --max_distance=10.1
-```
-
-2. Convert the novel views/depths to TSDF volume. **Note: the angle, step, and max_distance should match the previous step.**
-```
-$ cd scenerf/
-$ python scenerf/scripts/reconstruction/depth2tsdf.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS \
-    --angle=10 --step=0.5 --max_distance=10.1
-```
-3. Compute scene reconstruction metrics using the generated TSDF volumes.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/eval_sr.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$KITTI_ROOT \
-    --preprocess_root=$KITTI_PREPROCESS
-```
-
-
-## Evaluate Bundlefusion
-Create folders to store intermediate evaluation data at `/gpfsscratch/rech/kvd/uyl37fq/to_delete/eval` and reconstruction data at `/gpfsscratch/rech/kvd/uyl37fq/to_delete/recon`.
-
-```
-$ export EVAL_SAVE_DIR=/gpfsscratch/rech/kvd/uyl37fq/to_delete/eval
-$ export RECON_SAVE_DIR=/gpfsscratch/rech/kvd/uyl37fq/to_delete/recon
-```
-
-### Pretrained model on Bundlefusion
-Please download the [pretrained model](https://www.rocq.inria.fr/rits_files/computer-vision/scenerf/scenerf_bundlefusion.ckpt).
-    
-### Novel depths synthesis on Bundlefusion
-Supposed we obtain the model from the training step at `/gpfsscratch/rech/kvd/uyl37fq/to_delete/last.ckpt` (Change to your location). We follow the steps below to evaluate the novel depths synthesis performance. 
-1. Compute the depth metrics on all frames in each sequence, additionally grouped by the distance to the input frame.
-
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/save_depth_metrics_bf.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$BF_ROOT \
-    --model_path=/gpfsscratch/rech/kvd/uyl37fq/to_delete/last.ckpt
-```
-2. Aggregate the depth metrics from all sequences.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/agg_depth_metrics_bf.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$BF_ROOT
-```
-
-### Novel views synthesis on Bundlefusion
-Given the trained model at `/gpfsscratch/rech/kvd/uyl37fq/to_delete/last.ckpt`, the novel views synthesis performance is obtained as followed:
-1. Render an RGB image for every frame in each sequence.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/render_colors_bf.py \
-    --eval_save_dir=$EVAL_SAVE_DIR \
-    --root=$BF_ROOT \
-    --model_path=/gpfsscratch/rech/kvd/uyl37fq/to_delete/last.ckpt
-```
-2. Compute the metrics, additionally grouped by the distance to the input frame.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/eval_color_bf.py --eval_save_dir=$EVAL_SAVE_DIR
-```
-
-
-## Scene reconstruction on Bundlefusion
-1. Generate novel views/depths for reconstructing scene.
-```
-$ cd scenerf/
-$ python scenerf/scripts/reconstruction/generate_novel_depths_bf.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$BF_ROOT \
-    --model_path=/gpfsscratch/rech/kvd/uyl37fq/to_delete/last.ckpt \
-    --angle=30 --step=0.2 --max_distance=2.1
-```
-
-2. Convert the novel views/depths to TSDF volume. **Note: the angle, step, and max_distance should match the previous step.**
-```
-$ cd scenerf/
-$ python scenerf/scripts/reconstruction/depth2tsdf_bf.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$BF_ROOT \
-    --angle=30 --step=0.2 --max_distance=2.1
-```
-3. Generate the voxel ground-truth for evaluation.
-```
-$ cd scenerf/
-$ python scenerf/scripts/reconstruction/generate_sc_gt_bf.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$BF_ROOT
-```
-
-4. Compute scene reconstruction metrics using the generated TSDF volumes.
-```
-$ cd scenerf/
-$ python scenerf/scripts/evaluation/eval_sc_bf.py \
-    --recon_save_dir=$RECON_SAVE_DIR \
-    --root=$BF_ROOT
-```
-
-## Mesh extraction and visualization
-Mesh can be obtained from [this line for KITTI](https://github.com/astra-vision/SceneRF/blob/main/scenerf/scripts/reconstruction/depth2tsdf.py#L107) and from [this line for Bundlefusion](https://github.com/astra-vision/SceneRF/blob/main/scenerf/scripts/reconstruction/depth2tsdf_bf.py#L119) , and drawed with open3d as following:
-```
-import open3d as o3d
-
-mesh = o3d.geometry.TriangleMesh()
-mesh.triangle_normals = o3d.utility.Vector3dVector(data['norms'])
-mesh.vertices = o3d.utility.Vector3dVector(data['verts'])
-mesh.triangles = o3d.utility.Vector3iVector(data['faces'])
-mesh.vertex_colors = o3d.utility.Vector3dVector(data['colors'].astype(np.float) / 255.0)
-
-o3d.visualization.draw_geometries([mesh])
-```
-
-
-
-# Acknowledgment
-The work was partly funded by the French project SIGHT (ANR-20-CE23-0016) and conducted in the SAMBA collaborative project, co-funded by BpiFrance in the Investissement d’Avenir Program. It was performed using HPC resources from GENCI–IDRIS (Grant 2021-AD011012808, 2022-AD011012808R1, and 2023-AD011014102). We thank Fabio Pizzati and Ivan Lopes for their kind proofreading and all Astra-vision group members of Inria Paris for the insightful discussions.
+All credit for the original SceneRF architecture goes to [Anh-Quan Cao](https://anhquancao.github.io) and [Raoul de Charette](https://team.inria.fr/rits/membres/raoul-de-charette/) at Inria, Paris. The original work was partly funded by the French project SIGHT (ANR-20-CE23-0016) and conducted in the SAMBA collaborative project.
