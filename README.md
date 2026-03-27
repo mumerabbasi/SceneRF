@@ -52,7 +52,7 @@ Standard PE:  [sin(2^0 x), cos(2^0 x), ..., sin(2^L x), cos(2^L x)]
 RFF:          sqrt(2) * cos(Wx + b),   W ~ N(0, sigma^2),  b ~ U[0, 2pi]
 ```
 
-**Impact:** This single change drove the largest portion of the depth synthesis improvement, reducing Abs Rel error and boosting accuracy thresholds across the board.
+**Impact:** Improved depth synthesis metrics across the board, particularly RMSE and RMSE log. Combined with hierarchical sampling, the two changes complement each other for the best overall results.
 
 ### 2. Hierarchical Volume Sampling
 
@@ -71,7 +71,7 @@ All three sample sets are then merged, sorted by depth, and rendered together in
 
 This coarse-to-fine hierarchical sampling strategy originates from the original NeRF paper (Mildenhall et al., 2020) but was not present in SceneRF. We adapted it to work alongside SceneRF's existing Gaussian sampling pipeline.
 
-**Impact:** Reduced depth error and improved reconstruction quality by ensuring more balanced sample coverage near surfaces.
+**Impact:** Drove the largest individual improvement on primary depth metrics (Abs Rel, Sq Rel) and was the only change that also improved novel view synthesis (LPIPS). Combined with RFF, the two changes together achieve the best results across all evaluation categories.
 
 ### 3. Self-Attention in Spherical U-Net (Exploratory)
 
