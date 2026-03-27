@@ -92,11 +92,11 @@ All experiments are on the **BundleFusion** indoor dataset. "Scaled Down" is our
 
 **Key takeaways from the results table:**
 
-| Configuration | Abs Rel ↓ | RMSE ↓ | δ < 1.25 ↑ | IoU ↑ (Recon.) |
+| Configuration | Abs Rel ↓ | RMSE ↓ | δ1 (< 1.25) ↑ | IoU ↑ (Recon.) |
 |:---|:---:|:---:|:---:|:---:|
-| Original (paper) | 0.1766 | 0.3680 | 72.71% | 25.85 |
+| Original (paper) | 0.1766 | 0.3680 | 72.71 | 25.85 |
 | Our Baseline (Scaled Down) | 0.1961 | 0.1087 | 67.86 | 21.50 |
-| **Ours (RFF + Hier. Samp.)** | **0.1582** | **0.0675** | **96.35** | **25.53** |
+| **Ours (RFF + Hier. Samp.)** | **0.1582** | **0.0675** | **75.29** | **25.53** |
 
 - **Bold** = best metric. Our combined approach (RFF + Hierarchical Sampling v1) achieves the **lowest depth error** and **highest accuracy** across all configurations.
 - Full ablation study with individual contributions of RFF and hierarchical sampling is available in the [technical report](docs/BetterSceNeRF.pdf).
