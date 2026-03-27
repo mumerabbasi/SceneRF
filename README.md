@@ -8,9 +8,14 @@
 <a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green?style=for-the-badge" alt="Project Page"></a>
 </p>
 
-**Built on top of [SceneRF](https://github.com/astra-vision/SceneRF) (ICCV 2023) by Cao & de Charette, Inria Paris**
+![PyTorch](https://img.shields.io/badge/PyTorch-1.7-EE4C2C?logo=pytorch&logoColor=white)
+![PyTorch Lightning](https://img.shields.io/badge/PyTorch_Lightning-Training-792EE5?logo=lightning&logoColor=white)
+![NeRF](https://img.shields.io/badge/NeRF-Radiance_Fields-FF6F00)
+![EfficientNet](https://img.shields.io/badge/EfficientNet--B7-Backbone-4285F4)
+![TSDF](https://img.shields.io/badge/TSDF-3D_Fusion-1C3C3C)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)
 
-Completed as part of the **Machine Learning for 3D Geometry (IN2392)** course at **Technical University of Munich (TUM)**
+**Built on top of [SceneRF](https://github.com/astra-vision/SceneRF) (ICCV 2023) by Cao & de Charette, Inria Paris**
 
 </div>
 
@@ -239,12 +244,6 @@ python convert_tum_to_bf/tum_to_bf.py \
 
 ---
 
-## Tools & Technologies
-
-`PyTorch` `PyTorch Lightning` `Neural Radiance Fields (NeRF)` `EfficientNet` `TSDF Fusion` `Self-Supervised Learning` `3D Computer Vision` `Volumetric Rendering` `Docker`
-
----
-
 ## Citation
 
 This work builds on SceneRF. If you use this code, please cite the original paper:
@@ -261,3 +260,11 @@ This work builds on SceneRF. If you use this code, please cite the original pape
 ## Acknowledgment
 
 All credit for the original SceneRF architecture goes to [Anh-Quan Cao](https://anhquancao.github.io) and [Raoul de Charette](https://team.inria.fr/rits/membres/raoul-de-charette/) at Inria, Paris. The original work was partly funded by the French project SIGHT (ANR-20-CE23-0016) and conducted in the SAMBA collaborative project.
+
+---
+
+<div align="center">
+
+Built at **Technical University of Munich** | Machine Learning for 3D Geometry (IN2392)
+
+</div>
