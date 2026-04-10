@@ -104,7 +104,7 @@ For **TUM RGB-D** (lower block in the figure), the most meaningful comparison is
 
 ---
 
-## Architecture Overview
+## Architecture
 
 ```
 Input Image
@@ -123,27 +123,27 @@ Input Image
            │
            ▼
 ┌─────────────────────────────┐
-│  Ray Sampling                │
-│  ├─ Uniform sampling         │
-│  ├─ Gaussian (SOM-guided)    │
+│  Ray Sampling               │
+│  ├─ Uniform sampling        │
+│  ├─ Gaussian (SOM-guided)   │
 │  └─ Hierarchical (NEW)  ◄───┼── Coarse-to-fine refinement
 └──────────┬──────────────────┘
            │
            ▼
 ┌─────────────────────────────┐
-│  RFF Positional Encoding ◄───┼── Random Fourier Features (NEW)
-│  + View Direction            │
+│  RFF Positional Encoding ◄──┼── Random Fourier Features (NEW)
+│  + View Direction           │
 └──────────┬──────────────────┘
            │
            ▼
 ┌─────────────────────────────┐
-│  ResNet-FC MLP               │   Density + Color prediction
+│  ResNet-FC MLP              │   Density + Color prediction
 │  (3 blocks, 512 hidden)     │   per sampled 3D point
 └──────────┬──────────────────┘
            │
            ▼
 ┌─────────────────────────────┐
-│  Volume Rendering            │   Alpha compositing along rays
+│  Volume Rendering           │   Alpha compositing along rays
 │  → Depth + RGB + TSDF       │   → 3D Scene Reconstruction
 └─────────────────────────────┘
 ```
