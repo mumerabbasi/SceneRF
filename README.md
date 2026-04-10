@@ -3,7 +3,7 @@
 # Better SceneRF: Improving Self-Supervised Monocular 3D Scene Reconstruction
 
 <p>
-<a href="docs/BetterSceNeRF.pdf"><img src="https://img.shields.io/badge/Technical_Report-PDF-blue" alt="Report"></a>
+<a href="assets/BetterSceneRF_Report.pdf"><img src="https://img.shields.io/badge/Technical_Report-PDF-blue" alt="Report"></a>
 <a href="https://arxiv.org/abs/2212.02501"><img src="https://img.shields.io/badge/Base_Paper-arXiv-red" alt="arXiv"></a>
 <a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green" alt="Project Page"></a>
 </p>
@@ -182,8 +182,10 @@ SceneRF/
 │   └── loss/                      # Depth metrics, self-supervised losses
 ├── convert_tum_to_bf/             # NEW: TUM RGB-D → BundleFusion converter
 ├── train_eval_bash_scripts/       # NEW: Ready-to-run training & evaluation scripts
-├── docs/BetterSceNeRF.pdf         # Technical report with full methodology & ablations
-└── assets/                        # Evaluation result figures
+├── assets/
+│   ├── BetterSceneRF_Report.pdf   # Technical report with full methodology & ablations
+│   └── outputResults.png          # Evaluation result figures
+└── teaser/                        # README figures and animations
 ```
 
 ---
