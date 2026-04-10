@@ -8,6 +8,14 @@
 <a href="https://astra-vision.github.io/SceneRF/"><img src="https://img.shields.io/badge/Original_Project-Page-green" alt="Project Page"></a>
 </p>
 
+![Python](https://img.shields.io/badge/Python-3.7%2B-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep_Learning-EE4C2C?logo=pytorch&logoColor=white)
+![NeRF](https://img.shields.io/badge/NeRF-3D_Reconstruction-7C3AED)
+![BundleFusion](https://img.shields.io/badge/BundleFusion-Indoor_RGB--D_Dataset-0F766E)
+![TUM RGB-D](https://img.shields.io/badge/TUM_RGB--D-Dataset-16A34A)
+![RFF](https://img.shields.io/badge/Random_Fourier_Features-Positional_Encoding-2563EB)
+![Hierarchical Sampling](https://img.shields.io/badge/Hierarchical_Sampling-Coarse_to_Fine_Ray_Sampling-4B5563)
+
 **Built on top of [SceneRF](https://github.com/astra-vision/SceneRF) (ICCV 2023) by Cao & de Charette, Inria Paris**
 
 </div>
